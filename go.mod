@@ -1,4 +1,4 @@
-module github.com/distractedm1nd/da-chat
+module github.com/distractedm1nd/tingle
 
 go 1.21.1
 
