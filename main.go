@@ -16,7 +16,9 @@ const (
 	// TODO: make this configurable
 	syncPeriod uint64 = 100 // last 100 blocks
 
-	writeK
+	writeKeyLength = 64
+	readKeyLength  = 32
+	idLength       = 10
 )
 
 type (
