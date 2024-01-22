@@ -34,12 +34,14 @@ var (
 type tickMsg time.Time
 
 type model struct {
-	ctx       context.Context
-	client    *client.Client
-	namespace share.Namespace
-	addr      state.Address
-	roomID    string
-	headerSub <-chan *header.ExtendedHeader
+	ctx           context.Context
+	client        *client.Client
+	namespace     share.Namespace
+	addr          state.Address
+	roomID        string
+	encryptionKey string
+	public        bool
+	headerSub     <-chan *header.ExtendedHeader
 
 	viewport    viewport.Model
 	messages    []Message
@@ -88,20 +90,26 @@ Type a message and press Enter to send.`)
 
 	ta.KeyMap.InsertNewline.SetEnabled(false)
 
-	return &model{
-		ctx:       ctx,
-		client:    celestiaClient,
-		namespace: namespace,
-		addr:      addr,
-		headerSub: headers,
-
+	m := &model{
+		ctx:         ctx,
+		client:      celestiaClient,
+		namespace:   namespace,
+		addr:        addr,
+		headerSub:   headers,
+		public:      public,
 		textarea:    ta,
 		messages:    []Message{},
 		viewport:    vp,
 		height:      v,
 		width:       h,
 		senderStyle: lipgloss.NewStyle().Foreground(lipgloss.Color("5")),
-	}, nil
+	}
+	if m.public {
+		m.roomID = key
+	} else {
+		m.encryptionKey = key
+	}
+	return m, nil
 }
 
 const historyDisplayRange = 7200 // ~day
