@@ -48,10 +48,13 @@ func Run() error {
 		}
 		return ConnectCmd(ctx, os.Args[2], os.Args[3], os.Args[4])
 	case "join":
-		if len(os.Args) != 3 {
-			return errors.New("please provide a write key, read key, or room id")
+		if len(os.Args) == 4 && os.Args[2] == "public" {
+			return JoinCmd(ctx, os.Args[3], true)
+		} else if len(os.Args) == 3 {
+			return JoinCmd(ctx, os.Args[2], false)
+		} else {
+			return errors.New("please provide a room id or encryption key")
 		}
-		return JoinCmd(ctx, os.Args[2])
 	case "list":
 		return ListCmd(ctx)
 	default:

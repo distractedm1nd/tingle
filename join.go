@@ -6,13 +6,13 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-func JoinCmd(ctx context.Context, key string) error {
+func JoinCmd(ctx context.Context, key string, public bool) error {
 	celestiaClient, err := NewCelestiaClient(ctx)
 	if err != nil {
 		return err
 	}
 
-	m, err := NewModel(ctx, celestiaClient, key)
+	m, err := NewModel(ctx, celestiaClient, key, public)
 	if err != nil {
 		return err
 	}

@@ -49,7 +49,7 @@ type model struct {
 	width, height int
 }
 
-func NewModel(ctx context.Context, celestiaClient *client.Client, key string) (*model, error) {
+func NewModel(ctx context.Context, celestiaClient *client.Client, key string, public bool) (*model, error) {
 	h, v := docStyle.GetFrameSize()
 
 	addr, err := celestiaClient.State.AccountAddress(ctx)
