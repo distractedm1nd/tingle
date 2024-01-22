@@ -85,7 +85,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client, key string, pu
 
 	ta.ShowLineNumbers = false
 
-	vp := viewport.New(100, 50)
+	vp := viewport.New(300, 50)
 	vp.SetContent(`Welcome to the chat room!
 Type a message and press Enter to send.`)
 
