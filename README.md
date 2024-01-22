@@ -41,3 +41,27 @@ go install
 ```
 
 After following these steps, Tingle should be installed on your machine and ready to use.
+
+## Usage Guide
+
+If you want to test out Tingle local network, you can use the `localnet.sh` script to set up a local network. If you want to use mainnet, you can skip this step. To run the script install [celestia-app](https://docs.celestia.org/nodes/celestia-app#install-celestia-app).
+
+### localnet.sh
+
+This script is used to set up a local network for testing purposes. It initializes a new blockchain, creates a new account, and configures the network settings.
+
+To run the script, use the following command:
+
+```bash
+./scripts/localnet.sh
+```
+
+### fund.sh
+
+This script is used to fund an account with tokens. It takes two arguments: the address to fund and the amount of tokens to send. If no amount is specified, it defaults to 10000000utia.
+
+To run the script, use the following command:
+
+```bash
+./scripts/fund.sh <address> <amount>
+```
