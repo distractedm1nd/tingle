@@ -150,9 +150,9 @@ func (m *model) handleIncomingHeader(h *header.ExtendedHeader) tea.Cmd {
 			// TODO LOG error
 		}
 
-		if newMessage.ID == m.roomID {
-			m.messages = append(m.messages, newMessage)
-		}
+		// if newMessage.ID == m.roomID {
+		m.messages = append(m.messages, newMessage)
+		// }
 	}
 
 	m.viewport.SetContent(displayMessages(m.messages))
@@ -202,6 +202,7 @@ func (m *model) sendMessage(ctx context.Context, content string) error {
 		return err
 	}
 
+	fmt.Println(msgBlob)
 	_, err = m.client.Blob.Submit(ctx, []*blob.Blob{msgBlob}, nil)
 	return err
 }
@@ -236,8 +237,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case tea.KeyEnter:
 			// TODO: loading circle
-			m.textarea.Reset()
 			m.sendMessage(m.ctx, m.textarea.Value())
+			m.textarea.Reset()
 			// m.messages = append(m.messages, m.senderStyle.Render("You: ")+m.textarea.Value())
 		}
 	}
