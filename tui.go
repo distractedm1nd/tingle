@@ -178,9 +178,20 @@ func waitForActivity(sub <-chan *header.ExtendedHeader) tea.Cmd {
 }
 
 func (m *model) sendMessage(ctx context.Context, content string) error {
+	text := content
+	var err error
+	if !m.public {
+		text, err = encrypt(content, m.encryptionKey)
+		if err != nil {
+			return err
+		}
+	}
+
 	msg := &Message{
-		Username: m.addr.String(),
-		Content:  content,
+		Username: m.username,
+		ID:       m.roomID,
+		Public:   m.public,
+		Content:  text,
 	}
 	msgBytes, err := json.Marshal(msg)
 	if err != nil {

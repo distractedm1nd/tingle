@@ -8,39 +8,40 @@ import (
 	"io"
 )
 
-func encrypt(plainText, key []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
+func encrypt(plainText, key string) (string, error) {
+	block, err := aes.NewCipher([]byte(key))
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	cipherText := make([]byte, aes.BlockSize+len(plainText))
 	iv := cipherText[:aes.BlockSize]
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return nil, err
+		return "", err
 	}
 
 	mode := cipher.NewCBCEncrypter(block, iv)
-	mode.CryptBlocks(cipherText[aes.BlockSize:], plainText)
+	mode.CryptBlocks(cipherText[aes.BlockSize:], []byte(plainText))
 
-	return cipherText, nil
+	return string(cipherText), nil
 }
 
-func decrypt(cipherText, key []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
+func decrypt(cipherText, key string) (string, error) {
+	block, err := aes.NewCipher([]byte(key))
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	if len(cipherText) < aes.BlockSize {
-		return nil, fmt.Errorf("ciphertext is too short")
+		return "nil", fmt.Errorf("ciphertext is too short")
 	}
 
-	iv := cipherText[:aes.BlockSize]
+
+	iv := []byte(cipherText)[:aes.BlockSize]
 	cipherText = cipherText[aes.BlockSize:]
 
 	mode := cipher.NewCBCDecrypter(block, iv)
-	mode.CryptBlocks(cipherText, cipherText)
+	mode.CryptBlocks([]byte(cipherText), []byte(cipherText))
 
 	return cipherText, nil
 }
