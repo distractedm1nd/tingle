@@ -5,6 +5,7 @@ go 1.21.1
 toolchain go1.21.3
 
 require (
+	github.com/BurntSushi/toml v1.3.2
 	github.com/celestiaorg/celestia-node v0.12.2
 	github.com/charmbracelet/bubbles v0.17.1
 	github.com/charmbracelet/bubbletea v0.25.0
