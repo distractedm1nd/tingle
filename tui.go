@@ -181,7 +181,7 @@ func (m *model) sendMessage(ctx context.Context, content string) error {
 	text := content
 	var err error
 	if !m.public {
-		text, err = encrypt(content, m.encryptionKey)
+		text, err = Encrypt(content, m.encryptionKey)
 		if err != nil {
 			return err
 		}

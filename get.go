@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"log/slog"
+	"fmt"
 
 	"github.com/celestiaorg/celestia-node/api/rpc/client"
 	"github.com/celestiaorg/celestia-node/share"
@@ -17,7 +17,7 @@ func GetMessagesBackwardsAsync(ctx context.Context, client *client.Client, names
 		for height := endHeight; height >= startHeight; height-- {
 			blobs, err := client.Blob.GetAll(ctx, height, []share.Namespace{namespace})
 			if err != nil {
-				slog.Error("can't get blobs for height and namespace, skipping...", height, namespace)
+				fmt.Println("can't get blobs for height and namespace, skipping...", height, namespace)
 				continue
 			}
 
@@ -25,7 +25,7 @@ func GetMessagesBackwardsAsync(ctx context.Context, client *client.Client, names
 				var msg Message
 				err := json.Unmarshal(b.Data, &msg)
 				if err != nil {
-					slog.Error("can't unmarshal msg for height and namespace, skipping...", height, namespace)
+					fmt.Println("can't unmarshal msg for height and namespace, skipping...", height, namespace)
 					continue
 				}
 				select {

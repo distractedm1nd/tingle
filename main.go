@@ -34,7 +34,7 @@ func Run() error {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
 	if len(os.Args) == 1 {
-		fmt.Println(usageStr)
+		fmt.Print(usageStr)
 		return nil
 	}
 
