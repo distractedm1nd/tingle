@@ -20,7 +20,7 @@ func NewCelestiaClient(ctx context.Context) (*client.Client, error) {
 }
 
 type Config struct {
-	path      string
+	path     string
 	Addr     string
 	Token    string
 	Username string
@@ -76,6 +76,8 @@ func ConnectCmd(_ context.Context, addr, token, username string) error {
 		return err
 	}
 	err = c.Save()
+	print("Connected to ", addr, " as ", username, "\n")
+	print("Saved in ~/.chat")
 	if err != nil {
 		return err
 	}
