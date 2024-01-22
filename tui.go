@@ -38,6 +38,7 @@ type model struct {
 	client    *client.Client
 	namespace share.Namespace
 	addr      state.Address
+	roomID    string
 	headerSub <-chan *header.ExtendedHeader
 
 	viewport    viewport.Model
@@ -48,7 +49,7 @@ type model struct {
 	width, height int
 }
 
-func NewModel(ctx context.Context, celestiaClient *client.Client) (*model, error) {
+func NewModel(ctx context.Context, celestiaClient *client.Client, key string) (*model, error) {
 	h, v := docStyle.GetFrameSize()
 
 	addr, err := celestiaClient.State.AccountAddress(ctx)
@@ -56,7 +57,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client) (*model, error
 		return nil, err
 	}
 
-	namespace, err := share.NewBlobNamespaceV0([]byte{5, 5, 5, 5})
+	namespace, err := share.NewBlobNamespaceV0([]byte(chatNamespaceStr))
 	if err != nil {
 		return nil, err
 	}
@@ -112,11 +113,14 @@ func (m *model) DisplayHistory() error {
 		return err
 	}
 
-	start, end := head.Height()-historyDisplayRange, head.Height()
+	start, end := head.Height()-syncPeriod, head.Height()
 	msgCh := GetMessagesBackwardsAsync(m.ctx, m.client, m.namespace, start, end)
 	for msg := range msgCh {
 		// TODO: Messages has to be synchronized as here we write and View reads async
-		m.messages = append(m.messages, msg)
+		if msg.ID == m.roomID {
+			// TODO: needs to be added backwards, not to the end of slice
+			m.messages = append(m.messages, msg)
+		}
 	}
 
 	return nil
@@ -137,7 +141,9 @@ func (m *model) handleIncomingHeader(h *header.ExtendedHeader) tea.Cmd {
 			// TODO LOG error
 		}
 
-		m.messages = append(m.messages, newMessage)
+		if newMessage.ID == m.roomID {
+			m.messages = append(m.messages, newMessage)
+		}
 	}
 
 	m.viewport.SetContent(displayMessages(m.messages))

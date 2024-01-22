@@ -6,11 +6,9 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-
-	"github.com/celestiaorg/celestia-node/share"
 )
 
-var chatNamespace share.Namespace = []byte("chat")
+var chatNamespaceStr = "tingle"
 
 const (
 	// TODO: make this configurable
@@ -19,12 +17,6 @@ const (
 	writeKeyLength = 64
 	readKeyLength  = 32
 	idLength       = 10
-)
-
-type (
-	WriteKey string
-	ReadKey  string
-	IDKey    string
 )
 
 const usageStr = `

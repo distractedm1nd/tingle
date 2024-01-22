@@ -20,17 +20,23 @@ func NewCelestiaClient(ctx context.Context) (*client.Client, error) {
 }
 
 type Config struct {
-	dir      string
+	path      string
 	Addr     string
 	Token    string
 	Username string
 }
 
-func NewConfig(addr, token string) *Config {
+func NewConfig(addr, token string) (*Config, error) {
+	home, err := os.UserHomeDir()
+	if err != nil {
+		return nil, err
+	}
+	path := filepath.Join(home, pathName, "config.toml")
 	return &Config{
 		Addr:  addr,
 		Token: token,
-	}
+		path:  path,
+	}, nil
 }
 
 func LoadConfig() (*Config, error) {
@@ -44,12 +50,16 @@ func LoadConfig() (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
-	c.dir = path
+	c.path = path
 	return c, err
 }
 
 func (c *Config) Save() error {
-	f, err := os.Create(c.dir)
+	dir := filepath.Dir(c.path)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return err
+	}
+	f, err := os.Create(c.path)
 	if err != nil {
 		return err
 	}
@@ -61,8 +71,11 @@ func (c *Config) Save() error {
 }
 
 func ConnectCmd(_ context.Context, addr, token, username string) error {
-	c := NewConfig(addr, token)
-	err := c.Save()
+	c, err := NewConfig(addr, token)
+	if err != nil {
+		return err
+	}
+	err = c.Save()
 	if err != nil {
 		return err
 	}

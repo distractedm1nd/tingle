@@ -12,7 +12,7 @@ func JoinCmd(ctx context.Context, key string) error {
 		return err
 	}
 
-	m, err := NewModel(ctx, celestiaClient)
+	m, err := NewModel(ctx, celestiaClient, key)
 	if err != nil {
 		return err
 	}

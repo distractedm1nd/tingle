@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/celestiaorg/celestia-node/api/rpc/client"
+	"github.com/celestiaorg/celestia-node/share"
 )
 
 func ListCmd(ctx context.Context) error {
@@ -28,7 +29,12 @@ func List(ctx context.Context, client *client.Client) ([]string, error) {
 	}
 	currentHeight := header.Height()
 	earliestHeight := currentHeight - syncPeriod
-	return listRooms(GetMessagesBackwardsAsync(ctx, client, chatNamespace, earliestHeight, currentHeight)), nil
+	namespace, err := share.NewBlobNamespaceV0([]byte(chatNamespaceStr))
+	if err != nil {
+		return nil, err
+	}
+
+	return listRooms(GetMessagesBackwardsAsync(ctx, client, namespace, earliestHeight, currentHeight)), nil
 }
 
 // Author: @manav
@@ -43,7 +49,7 @@ func listRooms(messages <-chan Message) []string {
 	}
 	IDs := make([]string, len(doesIDExist))
 	i := 0
-	for ID, _ := range doesIDExist {
+	for ID := range doesIDExist {
 		IDs[i] = ID
 		i++
 	}
