@@ -40,6 +40,7 @@ type model struct {
 	addr          state.Address
 	roomID        string
 	encryptionKey string
+	username      string
 	public        bool
 	headerSub     <-chan *header.ExtendedHeader
 
@@ -51,7 +52,7 @@ type model struct {
 	width, height int
 }
 
-func NewModel(ctx context.Context, celestiaClient *client.Client, key string, public bool) (*model, error) {
+func NewModel(ctx context.Context, celestiaClient *client.Client, key string, public bool, username string) (*model, error) {
 	h, v := docStyle.GetFrameSize()
 
 	addr, err := celestiaClient.State.AccountAddress(ctx)
@@ -97,6 +98,7 @@ Type a message and press Enter to send.`)
 		addr:        addr,
 		headerSub:   headers,
 		public:      public,
+		username:    username,
 		textarea:    ta,
 		messages:    []Message{},
 		viewport:    vp,

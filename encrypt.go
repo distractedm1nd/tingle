@@ -4,8 +4,8 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
-	"io"
 	"fmt"
+	"io"
 )
 
 func encrypt(plainText, key []byte) ([]byte, error) {

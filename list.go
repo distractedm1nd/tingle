@@ -8,7 +8,12 @@ import (
 )
 
 func ListCmd(ctx context.Context) error {
-	client, err := NewCelestiaClient(ctx)
+	cfg, err := LoadConfig()
+	if err != nil {
+		return err
+	}
+
+	client, err := NewCelestiaClient(ctx, cfg)
 	if err != nil {
 		return err
 	}

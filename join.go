@@ -7,12 +7,17 @@ import (
 )
 
 func JoinCmd(ctx context.Context, key string, public bool) error {
-	celestiaClient, err := NewCelestiaClient(ctx)
+	cfg, err := LoadConfig()
 	if err != nil {
 		return err
 	}
 
-	m, err := NewModel(ctx, celestiaClient, key, public)
+	celestiaClient, err := NewCelestiaClient(ctx, cfg)
+	if err != nil {
+		return err
+	}
+
+	m, err := NewModel(ctx, celestiaClient, key, public, cfg.Username)
 	if err != nil {
 		return err
 	}

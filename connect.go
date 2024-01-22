@@ -11,11 +11,7 @@ import (
 
 const pathName = ".chat"
 
-func NewCelestiaClient(ctx context.Context) (*client.Client, error) {
-	cfg, err := LoadConfig()
-	if err != nil {
-		return nil, err
-	}
+func NewCelestiaClient(ctx context.Context, cfg *Config) (*client.Client, error) {
 	return client.NewClient(ctx, cfg.Addr, cfg.Token)
 }
 
