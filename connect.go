@@ -77,7 +77,7 @@ func ConnectCmd(_ context.Context, addr, token, username string) error {
 	}
 	err = c.Save()
 	print("Connected to ", addr, " as ", username, "\n")
-	print("Saved in ~/.chat")
+	print("Saved in ~/.chat\n")
 	if err != nil {
 		return err
 	}
