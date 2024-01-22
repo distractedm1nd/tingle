@@ -85,7 +85,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client, key string, pu
 
 	ta.ShowLineNumbers = false
 
-	vp := viewport.New(h, v-3)
+	vp := viewport.New(h, 50)
 	vp.SetContent(`Welcome to the chat room!
 Type a message and press Enter to send.`)
 
@@ -227,6 +227,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.height, m.width = msg.Height, msg.Width
 		return m, nil
 	case tickMsg:
+		m.viewport.SetContent(displayMessages(m.messages))
+		m.viewport.GotoBottom()
 		return m, tickCmd()
 	case tea.KeyMsg:
 		switch msg.Type {

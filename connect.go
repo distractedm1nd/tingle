@@ -22,16 +22,17 @@ type Config struct {
 	Username string
 }
 
-func NewConfig(addr, token string) (*Config, error) {
+func NewConfig(addr, token, username string) (*Config, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return nil, err
 	}
 	path := filepath.Join(home, pathName, "config.toml")
 	return &Config{
-		Addr:  addr,
-		Token: token,
-		path:  path,
+		Addr:     addr,
+		Token:    token,
+		path:     path,
+		Username: username,
 	}, nil
 }
 
@@ -67,7 +68,7 @@ func (c *Config) Save() error {
 }
 
 func ConnectCmd(_ context.Context, addr, token, username string) error {
-	c, err := NewConfig(addr, token)
+	c, err := NewConfig(addr, token, username)
 	if err != nil {
 		return err
 	}

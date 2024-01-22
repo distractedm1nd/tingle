@@ -44,24 +44,18 @@ After following these steps, Tingle should be installed on your machine and read
 
 ## Usage Guide
 
-If you want to test out Tingle local network, you can use the `localnet.sh` script to set up a local network. If you want to use mainnet, you can skip this step. To run the script install [celestia-app](https://docs.celestia.org/nodes/celestia-app#install-celestia-app).
+If you want to test out Tingle on a local network, you can use the Docker image provided by the `local-celestia-devnet` repository. If you want to use mainnet, you can skip this step.
 
-### localnet.sh
+### Local Celestia Devnet
 
-This script is used to set up a local network for testing purposes. It initializes a new blockchain, creates a new account, and configures the network settings.
+This Docker image allows developers to spin up a local Celestia devnet composed of a celestia-app validator node and a celestia-node bridge node.
 
-To run the script, use the following command:
-
-```bash
-./scripts/localnet.sh
-```
-
-### fund.sh
-
-This script is used to fund an account with tokens. It takes two arguments: the address to fund and the amount of tokens to send. If no amount is specified, it defaults to 10000000utia.
-
-To run the script, use the following command:
+To run the Docker image, use the following command:
 
 ```bash
-./scripts/fund.sh <address> <amount>
+docker run -t -i \
+-p 26650:26650 -p 26657:26657 -p 26658:26658 -p 26659:26659 -p 9090:9090 \
+ghcr.io/rollkit/local-celestia-devnet:latest
 ```
+
+For more information, please refer to the [local-celestia-devnet repository](https://github.com/rollkit/local-celestia-devnet).
