@@ -13,16 +13,13 @@ var chatNamespaceStr = "tingle"
 const (
 	// TODO: make this configurable
 	syncPeriod uint64 = 100 // last 100 blocks
-
-	writeKeyLength = 64
-	readKeyLength  = 32
-	idLength       = 10
 )
 
 const usageStr = `
 Usage:
 	chat connect <node address> <token> <username>
 	chat join <key>
+	chat join public <room id>
 	chat list 
 `
 
@@ -58,7 +55,7 @@ func Run() error {
 	case "list":
 		return ListCmd(ctx)
 	default:
-		return fmt.Errorf("invalid command")
+		return fmt.Errorf("unknown command")
 	}
 }
 
