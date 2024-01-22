@@ -22,6 +22,6 @@ func JoinCmd(ctx context.Context, key string, public bool) error {
 		return err
 	}
 
-	_, err = tea.NewProgram(m, tea.WithAltScreen()).Run()
+	_, err = tea.NewProgram(m).Run()
 	return err
 }

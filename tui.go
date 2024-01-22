@@ -77,7 +77,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client, key string, pu
 	ta.Prompt = "┃ "
 	ta.CharLimit = 280
 
-	ta.SetWidth(h)
+	ta.SetWidth(300)
 	ta.SetHeight(3)
 
 	// Remove cursor line styling
@@ -85,7 +85,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client, key string, pu
 
 	ta.ShowLineNumbers = false
 
-	vp := viewport.New(h, 50)
+	vp := viewport.New(300, 50)
 	vp.SetContent(`Welcome to the chat room!
 Type a message and press Enter to send.`)
 
@@ -140,8 +140,7 @@ func (m *model) handleIncomingHeader(h *header.ExtendedHeader) tea.Cmd {
 	height := h.Height()
 	blobs, err := m.client.Blob.GetAll(m.ctx, height, []share.Namespace{m.namespace})
 	if err != nil {
-		//TODO
-		panic(err)
+		blobs = make([]*blob.Blob, 0)
 	}
 
 	for _, b := range blobs {
@@ -151,9 +150,9 @@ func (m *model) handleIncomingHeader(h *header.ExtendedHeader) tea.Cmd {
 			// TODO LOG error
 		}
 
-		if newMessage.ID == m.roomID {
-			m.messages = append(m.messages, newMessage)
-		}
+		// if newMessage.ID == m.roomID {
+		m.messages = append(m.messages, newMessage)
+		// }
 	}
 
 	m.viewport.SetContent(displayMessages(m.messages))
@@ -203,6 +202,7 @@ func (m *model) sendMessage(ctx context.Context, content string) error {
 		return err
 	}
 
+	fmt.Println(msgBlob)
 	_, err = m.client.Blob.Submit(ctx, []*blob.Blob{msgBlob}, nil)
 	return err
 }
@@ -237,8 +237,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case tea.KeyEnter:
 			// TODO: loading circle
-			m.textarea.Reset()
 			m.sendMessage(m.ctx, m.textarea.Value())
+			m.textarea.Reset()
 			// m.messages = append(m.messages, m.senderStyle.Render("You: ")+m.textarea.Value())
 		}
 	}
@@ -247,9 +247,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	h, _ := docStyle.GetFrameSize()
+	// h, _ := docStyle.GetFrameSize()
 
-	m.textarea.SetWidth(h)
+	// m.textarea.SetWidth(h)
 
 	return fmt.Sprintf(
 		"%s\n\n%s",
