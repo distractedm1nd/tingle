@@ -59,3 +59,9 @@ ghcr.io/rollkit/local-celestia-devnet:latest
 ```
 
 For more information, please refer to the [local-celestia-devnet repository](https://github.com/rollkit/local-celestia-devnet).
+
+## Connect Tingle to your node
+
+```bash
+./tingle connect http://localhost:26658 <auth key> <username>
+```
