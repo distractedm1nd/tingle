@@ -25,7 +25,7 @@ Before you can use Tingle, you need to install it. Follow these steps:
 1. Clone the Tingle repository:
 
 ```bash
-git clone https://github.com/distractedm1nd/da-chat.git
+git clone https://github.com/distractedm1nd/tingle.git
 ```
 
 2. Navigate to the cloned directory:
