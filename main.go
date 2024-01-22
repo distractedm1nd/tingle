@@ -21,8 +21,8 @@ const (
 
 const usageStr = `
 Usage:
-	chat create
-	chat join <pub>/<priv>/<id>
+	chat connect <node address> <token> <username>
+	chat join <key>
 	chat list 
 `
 
@@ -47,8 +47,6 @@ func Run() error {
 			return errors.New("please provide the nodes address and token and a username")
 		}
 		return ConnectCmd(ctx, os.Args[2], os.Args[3], os.Args[4])
-	case "create":
-		return CreateCmd()
 	case "join":
 		if len(os.Args) != 3 {
 			return errors.New("please provide a write key, read key, or room id")
