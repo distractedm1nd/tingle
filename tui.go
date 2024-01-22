@@ -85,7 +85,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client, key string, pu
 
 	ta.ShowLineNumbers = false
 
-	vp := viewport.New(h, v-3)
+	vp := viewport.New(h, 50)
 	vp.SetContent(`Welcome to the chat room!
 Type a message and press Enter to send.`)
 
@@ -179,7 +179,9 @@ func waitForActivity(sub <-chan *header.ExtendedHeader) tea.Cmd {
 
 func (m *model) sendMessage(ctx context.Context, content string) error {
 	msg := &Message{
-		Username: m.addr.String(),
+		Username: m.username,
+		ID:       m.roomID,
+		Public:   m.public,
 		Content:  content,
 	}
 	msgBytes, err := json.Marshal(msg)
@@ -216,6 +218,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.height, m.width = msg.Height, msg.Width
 		return m, nil
 	case tickMsg:
+		m.viewport.SetContent(displayMessages(m.messages))
+		m.viewport.GotoBottom()
 		return m, tickCmd()
 	case tea.KeyMsg:
 		switch msg.Type {
