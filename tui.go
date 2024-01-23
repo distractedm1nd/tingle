@@ -85,7 +85,7 @@ func NewModel(ctx context.Context, celestiaClient *client.Client, key string, pu
 
 	ta.ShowLineNumbers = false
 
-	vp := viewport.New(300, 50)
+	vp := viewport.New(50, 30)
 	vp.SetContent(`Welcome to the chat room!
 Type a message and press Enter to send.`)
 
@@ -209,7 +209,6 @@ func (m *model) sendMessage(ctx context.Context, content string) error {
 		return err
 	}
 
-	fmt.Println(msgBlob)
 	_, err = m.client.Blob.Submit(ctx, []*blob.Blob{msgBlob}, nil)
 	return err
 }
