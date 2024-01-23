@@ -150,6 +150,13 @@ func (m *model) handleIncomingHeader(h *header.ExtendedHeader) tea.Cmd {
 			// TODO LOG error
 		}
 
+		if !m.public {
+			newMessage.Content, err = Decrypt(newMessage.Content, m.encryptionKey)
+			if err != nil {
+				panic(err)
+			}
+		}
+
 		// if newMessage.ID == m.roomID {
 		m.messages = append(m.messages, newMessage)
 		// }
