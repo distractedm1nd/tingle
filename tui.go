@@ -223,6 +223,9 @@ func tickCmd() tea.Cmd {
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	if msg == nil {
+		return m, tea.Batch(tiCmd, vpCmd)
+	}
 	m.textarea, tiCmd = m.textarea.Update(msg)
 	m.viewport, vpCmd = m.viewport.Update(msg)
 
