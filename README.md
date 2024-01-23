@@ -71,3 +71,7 @@ For more information, please refer to the [local-celestia-devnet repository](htt
 ```bash
 ./tingle ws://51.159.130.129:26658 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBbGxvdyI6WyJwdWJsaWMiLCJyZWFkIiwid3JpdGUiLCJhZG1pbiJdfQ.mo6fGPd2qEfeftaagxPSZNwbQ0wix2PagDPF9FrA-bI <username>
 ```
+
+Let`s talk !
+
+![Lets talk](./screenshots/Screenshot.png)
