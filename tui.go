@@ -237,7 +237,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case tea.KeyEnter:
 			// TODO: loading circle
-			m.sendMessage(m.ctx, m.textarea.Value())
+			err := m.sendMessage(m.ctx, m.textarea.Value())
+			if err != nil {
+				fmt.Println(err)
+			}
 			m.textarea.Reset()
 			// m.messages = append(m.messages, m.senderStyle.Render("You: ")+m.textarea.Value())
 		}
