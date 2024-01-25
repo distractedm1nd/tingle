@@ -1,0 +1,13 @@
+"Privacy is the foundation of all freedoms. Arguing that you don't care about privacy because you have nothing
+to hide is like saying you don't care about free speech because you have nothing to say." - Edward Snowden
+
+\\\\\WHAT IS DA-CHAT?\\\\\
+
+DA-CHAT is a private messaging service that utilizes the Data Availability layer of Celestia Mainnet Beta 
+to create chat "rooms" for which read/write access is controlled via a users public/private key pair.
+
+A user who wants to create a "Room" generate a public/private key pair unique to that Room. The public/private
+keys allow read and write access, respectively, within that Room.
+
+By distributing the public/private keys to their friends and communities, users can rely on the cryptographic
+security of the Celestia mainnet beta network to ensure that their conversations remain secure and private.
